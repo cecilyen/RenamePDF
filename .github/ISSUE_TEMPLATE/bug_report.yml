@@ -1,0 +1,39 @@
+name: Bug report
+description: Report a reproducible problem without sharing private collection data.
+title: "[Bug]: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Do not upload PDFs, reports, cache databases, API keys, passwords, or unredacted local paths.
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: Describe the observed behavior and the expected behavior.
+    validations:
+      required: true
+  - type: input
+    id: workflow
+    attributes:
+      label: Workflow
+      description: Which command is affected (RenamePDF.py, DedupePDF.py, or ReplacePublished.py)?
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      description: OS, architecture, Python version, and uv version.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Sanitized reproduction
+      description: Provide a minimal command or fixture that contains no private document data.
+  - type: textarea
+    id: logs
+    attributes:
+      label: Redacted logs
+      description: Include the smallest relevant error output. Remove credentials and private paths.

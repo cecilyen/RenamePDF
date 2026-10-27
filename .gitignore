@@ -1,0 +1,61 @@
+# Python and uv
+.venv/
+__pycache__/
+*.py[cod]
+.python-version
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+coverage.xml
+htmlcov/
+build/
+dist/
+*.egg-info/
+
+# Local configuration and credentials
+.env
+.env.*
+!.env.example
+
+# Private local agent instructions and detailed working notes
+/AGENTS.md
+/AGENTS.override.md
+/CLAUDE.md
+/CLAUDE.local.md
+/README.local.md
+/.claude/
+/.codex/
+/.agents/
+/.aws/
+
+# Editors and operating systems
+.DS_Store
+.idea/
+.vscode/
+
+# RenamePDF runtime state and reports
+.pdf_renamer_cache.sqlite*
+.renamepdf_identity_cache.sqlite*
+.renamepdf-replacement-*.json
+.published-*/
+0_results*.csv
+0_dedupe_results*.csv
+0_audit_results*.csv
+0_replace_results*.csv
+*.renamepdf-rollback
+*.renamepdf-installed-marker*
+
+# Retired private runtime names remain ignored but are not read by current code
+.dedupe_identity_cache.sqlite*
+.replacepublished_identity_cache.sqlite*
+0_published_replacements*.csv
+artifacts/reports/
+artifacts/review/
+
+# User document collections and generated holding directories
+*.pdf
+Duplicated/
+Failed/
+Superseded/
+Reports/

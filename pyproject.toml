@@ -1,0 +1,14 @@
+[project]
+name = "renamepdf"
+version = "0.3.1"
+description = "Organize and rename scientific paper PDFs using DOI and title metadata."
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "httpx",
+    "pymupdf==1.28.2",
+    "truststore",
+]
+
+[tool.uv]
+package = false
