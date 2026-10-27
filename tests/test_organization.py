@@ -987,6 +987,8 @@ class OrganizationRunTests(unittest.IsolatedAsyncioTestCase):
             _create_pdf(source)
             _make_pdf_large_and_compressible(source)
             original = source.read_bytes()
+            # Keep the original inode allocated so restoration cannot reuse it.
+            (root / "original-inode.bin").hardlink_to(source)
             token = file_metadata.file_token(source)
             marker = pdf_rewrite._marker_payload
 
@@ -1049,6 +1051,8 @@ class OrganizationRunTests(unittest.IsolatedAsyncioTestCase):
             source = root / "covered.pdf"
             _create_covered_pdf(source)
             original = source.read_bytes()
+            # Keep the original inode allocated so restoration cannot reuse it.
+            (root / "original-inode.bin").hardlink_to(source)
             token = file_metadata.file_token(source)
             marker = pdf_rewrite._marker_payload
             def fail_install_marker(operation, *args, **kwargs):
