@@ -11,6 +11,7 @@ import tempfile
 import threading
 import unittest
 from concurrent.futures import ThreadPoolExecutor
+from contextlib import closing
 from pathlib import Path
 from unittest import mock
 
@@ -1036,10 +1037,11 @@ class IdentityCacheStorageTests(unittest.TestCase):
                 root.resolve() / pdf_identity_cache.CACHE_FILENAME,
             )
             self.assertTrue(snapshot.is_file())
-            self.assertEqual(
-                stat.S_IMODE(snapshot.stat().st_mode),
-                pdf_identity_cache.PRIVATE_FILE_MODE,
-            )
+            if os.name == "posix":
+                self.assertEqual(
+                    stat.S_IMODE(snapshot.stat().st_mode),
+                    pdf_identity_cache.PRIVATE_FILE_MODE,
+                )
 
             second = pdf_identity_cache.IdentityCache(
                 root,
@@ -1779,7 +1781,7 @@ class SnapshotPublicationTests(unittest.TestCase):
                             release.set()
                             pending.result(timeout=10)
                             snapshot = second.publish()
-                            with sqlite3.connect(snapshot) as connection:
+                            with closing(sqlite3.connect(snapshot)) as connection:
                                 paths = {row[0] for row in connection.execute("SELECT relative_path FROM identity_cache")}
                             self.assertEqual(paths, {"first.pdf", "second.pdf"})
                     finally:

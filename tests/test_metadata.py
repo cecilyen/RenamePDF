@@ -3,6 +3,7 @@
 import json
 import tempfile
 import unittest
+from contextlib import closing
 from datetime import datetime, timezone
 from pathlib import Path
 from unittest import mock
@@ -213,10 +214,11 @@ class MetadataProviderSetTests(unittest.IsolatedAsyncioTestCase):
 
 class PubMedAdapterTests(unittest.IsolatedAsyncioTestCase):
     async def test_notice_lookup_does_not_substitute_original_article(self) -> None:
-        with tempfile.TemporaryDirectory() as directory:
-            cache = metadata_providers.MetadataCache(Path(directory) / "cache.sqlite")
+        with (
+            tempfile.TemporaryDirectory() as directory,
+            closing(metadata_providers.MetadataCache(Path(directory) / "cache.sqlite")) as cache,
+        ):
             cache.open()
-            self.addCleanup(cache.close)
             adapter = metadata_providers.PubMedAdapter(mock.Mock(), cache, "", "", mock.Mock(), {}, {})
             notice_xml = '''<PubmedArticleSet><PubmedArticle><MedlineCitation>
               <PMID>200</PMID><Article><ArticleTitle>Retraction Note: Synthetic study</ArticleTitle>
